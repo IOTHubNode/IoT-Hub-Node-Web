@@ -1,28 +1,16 @@
-
-import {createRouter,createWebHistory} from 'vue-router'
-
-import A from '@/views/a.vue' 
-import B from '@/views/b.vue'
-import C from '@/views/c.vue'
-
-
+// 配置路由
+import { createRouter, createWebHistory } from 'vue-router';
+import { constantRoute } from './routes';
 const router = createRouter({
-    history: createWebHistory(), // 创建一个history模式的vue-router
-    routes: [
-    {
-        path: '/a',
-        component:A
-    },
-    {
-        path: '/b',
-        component:B
-    },
-    {
-        path: '/c',
-        component:C
-    }
-    ]
-})
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes: constantRoute,
+	//滚动行为
+	scrollBehavior() {
+		return {
+			left: 0,
+			top: 0
+		};
+	}
+});
 
-
-export default router   // 导出路由实例
+export default router;

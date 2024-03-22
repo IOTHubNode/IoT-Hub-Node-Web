@@ -1,18 +1,9 @@
 <template>
-  <div class="App">
-    <h1>IOT Hub Node</h1>
-    <Count />
-    <LoveTalk />
-  </div>
-
+	<div id="app">
+		<RouterView></RouterView>
+	</div>
 </template>
-  
-<script setup lang="ts" name="App">
-  import Count from "./components/Count.vue"
-  import LoveTalk from "./components/LoveTalk.vue"
 
-</script>
+<script setup lang="ts"></script>
 
-<style scoped>
-  
-</style>
+<style scoped lang="scss"></style>
