@@ -5,13 +5,13 @@
 				<div class="logo">
 					<svg-icon name="login-img" width="340px" height="340px"></svg-icon>
 				</div>
-				<div class="title">Vue-Element-Admin</div>
-				<div class="title">开箱即用的后端管理模板</div>
+				<div class="title">IOT-Hub-Node</div>
+				<div class="title">开箱即用的通用物联网平台</div>
 			</el-aside>
 			<el-main class="main">
 				<el-card class="box-card">
-					<div class="main-title-1">Vue-Element-Admin</div>
-					<div class="main-title-2">一个简单易用的后台管理系统</div>
+					<div class="main-title-1">IOT-Hub-Node</div>
+					<div class="main-title-2">开箱即用的通用物联网平台</div>
 					<el-tabs v-model="activeName" class="demo-tabs" :stretch="true">
 						<el-tab-pane label="登陆" name="first">
 							<el-form class="login-form">
