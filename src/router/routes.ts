@@ -92,7 +92,7 @@ export const constantRoute = [
 			hidden: true,
 			icon: 'House'
 		}
-	}
+	},
 	// // 系统管理
 	// {
 	// 	path: '/admin',
@@ -157,6 +157,78 @@ export const constantRoute = [
 	// 		}
 	// 	]
 	// }
+	//设备管理
+	{
+		path: '/device',
+		name: 'device',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '设备管理',
+			hidden: false,
+			icon: 'Iphone'
+		},
+		redirect: '/device/deviceModel',
+		children: [
+			// 物模型
+			{
+				path: '/device/deviceModel',
+				name: 'deviceModel',
+				component: () => import('@/views/device/model/index.vue'),
+				meta: {
+					title: '物模型',
+					hidden: false,
+					icon: 'MessageBox'
+				}
+			},
+			// 设备
+			{
+				path: '/device/deviceAdmin',
+				name: 'deviceAdmin',
+				component: () => import('@/views/device/admin/index.vue'),
+				meta: {
+					title: '设备',
+					hidden: false,
+					icon: 'Monitor'
+				}
+			}
+		]
+	},
+	//监控运维
+	{
+		path: '/operations',
+		name: 'operations',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '监控运维',
+			hidden: false,
+			icon: 'DataLine'
+		},
+		redirect: '/operations/ota',
+		children: [
+			// 物模型
+			{
+				path: '/operations/ota',
+				name: 'ota',
+				component: () => import('@/views/about/index.vue'),
+				meta: {
+					title: 'OTA升级',
+					hidden: false,
+					icon: 'MessageBox'
+				}
+			},
+			// 设备
+			{
+				path: '/about/about',
+				name: 'deviceAdmin1',
+				component: () => import('@/views/about/index.vue'),
+				meta: {
+					title: '设备',
+					hidden: false,
+					icon: 'Monitor'
+				}
+			}
+		]
+	}
 ];
 
 // 异步路由
