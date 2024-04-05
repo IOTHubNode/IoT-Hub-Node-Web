@@ -101,7 +101,7 @@ export const constantRoute = [
 	// 	meta: {
 	// 		title: '系统管理',
 	// 		hidden: false,
-	// 		icon: 'Setting'
+	// 		icon: 'Setting',
 	// 	},
 	// 	redirect: '/admin/organization',
 	// 	children: [
@@ -169,7 +169,7 @@ export const constantRoute = [
 		},
 		redirect: '/device/deviceModel',
 		children: [
-			// 物模型
+			// 物模型列表
 			{
 				path: '/device/deviceModel',
 				name: 'deviceModel',
@@ -178,7 +178,29 @@ export const constantRoute = [
 					title: '物模型',
 					hidden: false,
 					icon: 'MessageBox'
-				}
+				},
+				children: [
+					{
+						path: '/device/deviceModel/Detail',
+						name: 'deviceModelDetail',
+						component: () => import('@/views/device/model/detail.vue'),
+						meta: {
+							title: '物模型详情',
+							hidden: true,
+							icon: 'MessageBox'
+						}
+					},
+					{
+						path: '/device/deviceModel/addmodel',
+						name: 'addDeviceModel',
+						component: () => import('@/views/device/model/addmodel.vue'),
+						meta: {
+							title: '添加物模型',
+							hidden: true,
+							icon: 'MessageBox'
+						}
+					}
+				]
 			},
 			// 设备
 			{

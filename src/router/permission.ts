@@ -6,8 +6,49 @@ import 'nprogress/nprogress.css';
 nprogress.configure({ showSpinner: false });
 // 引入用户仓库
 import useAcountStore from '@/stores/modules/account';
-// 全局路由守卫(前置)
+// // 全局路由守卫(前置)
+// router.beforeEach(async (to: any, from: any, next: any) => {
+// 	// 开启进度条
+// 	nprogress.start();
+// 	// 判断用户是否登陆
+// 	// 获取用户仓库
+// 	const accountStore = useAcountStore();
+// 	const token = accountStore.token;
+// 	const accountNmae = accountStore.accountInfo.Name;
+// 	// 用户已登录
+// 	if (token) {
+// 		if (to.path == '/login') {
+// 			next('/dashboard');
+// 		} else {
+// 			if (accountNmae) {
+// 				next();
+// 			} else {
+// 				// 获取用户信息to
+// 				try {
+// 					await accountStore.gteAccountInfo();
+// 					next({ ...to, replaace: true });
+// 				} catch (error) {
+// 					// 获取用户信息失败
+// 					// 清空token
+// 					accountStore.accountLogout();
+// 					next('/login');
+// 				}
+// 			}
+// 		}
+// 		next();
+// 	} else {
+// 		// 用户未登录
+// 		// 判断用户访问的是否是login页面
+// 		if (to.path == '/login') {
+// 			next();
+// 		} else {
+// 			next('/login');
+// 		}
+// 	}
+// 	nprogress.done();
+// });
 router.beforeEach(async (to: any, from: any, next: any) => {
+	console.log('to', to, 'from', from);
 	// 开启进度条
 	nprogress.start();
 	// 判断用户是否登陆
@@ -21,6 +62,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
 			next('/dashboard');
 		} else {
 			if (accountNmae) {
+				console.log('路由守卫允许跳转');
 				next();
 			} else {
 				// 获取用户信息to
@@ -35,16 +77,16 @@ router.beforeEach(async (to: any, from: any, next: any) => {
 				}
 			}
 		}
-		next();
 	} else {
 		// 用户未登录
 		// 判断用户访问的是否是login页面
-		if (to.path == '/login') {
-			next();
-		} else {
+		if (to.path != '/login') {
 			next('/login');
+		} else {
+			next();
 		}
 	}
+	// 关闭进度条
 	nprogress.done();
 });
 
