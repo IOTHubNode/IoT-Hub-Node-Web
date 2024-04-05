@@ -57,8 +57,8 @@ import { getDeviceModelList } from '@/api/device/model';
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
-
 const router = useRouter();
+
 const deviceModelList: any = ref(''); // 设备模型列表
 
 // 添加按钮
@@ -69,8 +69,9 @@ const addButton = () => {
 // 模型按钮
 const modelButton = () => {
 	console.log('点击了模型');
+	console.log('router', router.options.routes);
 	// 跳转
-	router.push('/device/deviceModel/Detail');
+	router.push('/device/deviceModel/detail');
 };
 // 加载数据
 const getData = () => {

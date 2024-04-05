@@ -181,9 +181,9 @@ export const constantRoute = [
 				},
 				children: [
 					{
-						path: '/device/deviceModel/Detail',
+						path: '/device/deviceModel/detail',
 						name: 'deviceModelDetail',
-						component: () => import('@/views/device/model/detail.vue'),
+						component: () => import('@/views/device/model/detail/index.vue'),
 						meta: {
 							title: '物模型详情',
 							hidden: true,
