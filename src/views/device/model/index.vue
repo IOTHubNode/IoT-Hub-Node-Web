@@ -24,6 +24,7 @@
 									<div>
 										<el-tag v-if="item.ConnectType === 1" type="success">直连设备</el-tag>
 										<el-tag v-else-if="item.ConnectType === 2" type="success">网关设备</el-tag>
+										<el-tag v-else-if="item.ConnectType === 3" type="success">网关子设备</el-tag>
 										<el-tag v-else type="success">其他设备</el-tag>
 									</div>
 									<!-- 设备数量 -->

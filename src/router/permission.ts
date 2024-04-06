@@ -48,7 +48,7 @@ import useAcountStore from '@/stores/modules/account';
 // 	nprogress.done();
 // });
 router.beforeEach(async (to: any, from: any, next: any) => {
-	console.log('to', to, 'from', from);
+	//console.log('to', to, 'from', from);
 	// 开启进度条
 	nprogress.start();
 	// 判断用户是否登陆
@@ -62,7 +62,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
 			next('/dashboard');
 		} else {
 			if (accountNmae) {
-				console.log('路由守卫允许跳转');
+				//console.log('路由守卫允许跳转');
 				next();
 			} else {
 				// 获取用户信息to

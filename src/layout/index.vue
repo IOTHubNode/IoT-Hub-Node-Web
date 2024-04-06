@@ -8,7 +8,7 @@
 						<div class="logo">
 							<img src="@/assets/img/favicon.ico" alt="" />
 						</div>
-						<div class="title" v-if="!isCollapse ? true : false">Vue-Admin</div>
+						<div class="title" v-if="!isCollapse ? true : false">IOT-Hub-Node</div>
 					</div>
 					<!-- 动态生成路由 -->
 					<routemenu :menuList="accountStore.menuRoutes" ref="menuP"></routemenu>

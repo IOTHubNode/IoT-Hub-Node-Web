@@ -28,8 +28,16 @@
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item>文档</el-dropdown-item>
-					<el-dropdown-item>代码仓库</el-dropdown-item>
+					<el-dropdown-item>
+						<el-link :underline="false" href="https://iothubnode.github.io/IoT-Hub-Node-Document/">
+							文档
+						</el-link>
+					</el-dropdown-item>
+					<el-dropdown-item>
+						<el-link :underline="false" href="https://github.com/IOTHubNode/IoT-Hub-Node">
+							代码仓库
+						</el-link>
+					</el-dropdown-item>
 					<el-dropdown-item @click="goLogin">退出系统</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
@@ -50,9 +58,7 @@
 				@change="layoutSettingStore.changeDark"
 				:active-action-icon="Moon"
 				:inactive-action-icon="Sunny"
-				style="
-
---el-switch-on-color: #323734; --el-switch-off-color: #a0b4a8" />
+				style="--el-switch-on-color: #323734; --el-switch-off-color: #a0b4a8" />
 			<el-divider>配色</el-divider>
 			<el-form>
 				<el-form-item label="主题色:">
