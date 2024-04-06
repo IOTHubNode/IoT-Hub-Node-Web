@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<el-card class="box-card" fit="true">
+	<div class="model-list">
+		<el-card class="box-card" fit="true" v-if="$route.path === '/device/deviceModel'">
 			<!-- 卡片头部添加按钮 -->
 			<div class="button">
 				<el-button type="primary" icon="Plus" @click="addButton">添加</el-button>
@@ -49,6 +49,7 @@
 				<el-button type="primary" size="large" @click="addButton">创建物模型</el-button> -->
 			</div>
 		</el-card>
+		<router-view></router-view>
 	</div>
 </template>
 
@@ -93,6 +94,10 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.model-list {
+	z-index: 0;
+}
+
 .box-card {
 	.has-data {
 		.model-card {

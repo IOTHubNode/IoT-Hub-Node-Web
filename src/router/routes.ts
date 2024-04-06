@@ -193,7 +193,7 @@ export const constantRoute = [
 					{
 						path: '/device/deviceModel/addmodel',
 						name: 'addDeviceModel',
-						component: () => import('@/views/device/model/addmodel.vue'),
+						component: () => import('@/views/device/model/addmodel/index.vue'),
 						meta: {
 							title: '添加物模型',
 							hidden: true,
