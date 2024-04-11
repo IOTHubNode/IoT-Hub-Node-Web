@@ -20,11 +20,11 @@
 				<!-- 类型名称 -->
 				<div class="flex gap-4 mb-4">
 					<span>物模型名称</span>
-					<el-input
+					<!-- <el-input
 						v-model="input1"
 						style="width: 240px"
 						placeholder="Pick a date"
-						:suffix-icon="Calendar" />
+						:suffix-icon="Calendar" /> -->
 				</div>
 			</div>
 		</el-card>
