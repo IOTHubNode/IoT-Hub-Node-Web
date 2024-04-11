@@ -1,62 +1,26 @@
 // 静态路由
 export const constantRoute = [
-	// dashboard页面
+	// 首页
 	{
-		path: '/dashboard',
-		name: 'dashboard',
+		path: '/home',
+		name: 'home',
 		component: () => import('@/layout/index.vue'),
 		meta: {
-			title: 'Dashboard',
+			title: '首页',
 			hidden: false,
-			icon: 'Odometer'
+			icon: 'Home'
 		},
-		redirect: '/dashboard/dataview',
+		redirect: '/home/sysview',
 		children: [
 			// 数据概览
 			{
-				path: '/dashboard/dataview',
-				name: 'dataview',
-				component: () => import('@/views/dashboard/dataview/index.vue'),
+				path: '/home/sysview',
+				name: 'sysview',
+				component: () => import('@/views/home/sysview/index.vue'),
 				meta: {
-					title: '数据概览',
+					title: '系统概览',
 					hidden: false,
 					icon: 'Histogram'
-				}
-			},
-			//工作台
-			{
-				path: '/dashboard/workbench',
-				name: 'workbench',
-				component: () => import('@/views/dashboard/workbench/index.vue'),
-				meta: {
-					title: '工作台',
-					hidden: false,
-					icon: 'PieChart'
-				}
-			}
-		]
-	},
-	//关于页面
-	{
-		path: '/about',
-		name: 'about',
-		component: () => import('@/layout/index.vue'),
-		meta: {
-			title: 'about',
-			hidden: false,
-			icon: 'Link'
-		},
-		redirect: '/about/about',
-		children: [
-			// 关于系统
-			{
-				path: '/about/about',
-				name: 'about',
-				component: () => import('@/views/about/index.vue'),
-				meta: {
-					title: '关于系统',
-					hidden: false,
-					icon: 'Link'
 				}
 			}
 		]
@@ -92,7 +56,7 @@ export const constantRoute = [
 			hidden: true,
 			icon: 'House'
 		}
-	},
+	}
 	// // 系统管理
 	// {
 	// 	path: '/admin',
@@ -101,7 +65,7 @@ export const constantRoute = [
 	// 	meta: {
 	// 		title: '系统管理',
 	// 		hidden: false,
-	// 		icon: 'Setting',
+	// 		icon: 'Setting'
 	// 	},
 	// 	redirect: '/admin/organization',
 	// 	children: [
@@ -157,6 +121,46 @@ export const constantRoute = [
 	// 		}
 	// 	]
 	// }
+];
+
+// 异步路由
+export const asnycRoute = [
+	// 数据可视化
+	{
+		path: '/dataview',
+		name: 'dataview',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '数据可视化',
+			hidden: false,
+			icon: 'DataLine'
+		},
+		redirect: '/dataview/dataDisplay',
+		children: [
+			// 数据大屏
+			{
+				path: '/dataview/datascreen',
+				name: 'datascreen',
+				component: () => import('@/views/dataview/datascreen/index.vue'),
+				meta: {
+					title: '数据大屏',
+					hidden: false,
+					icon: 'Odometer'
+				}
+			},
+			// 数据看板
+			{
+				path: '/dataview/dashboard',
+				name: 'dashboard',
+				component: () => import('@/views/dataview/dashboard/index.vue'),
+				meta: {
+					title: '数据看板',
+					hidden: false,
+					icon: 'PieChart'
+				}
+			}
+		]
+	},
 	//设备管理
 	{
 		path: '/device',
@@ -250,11 +254,7 @@ export const constantRoute = [
 				}
 			}
 		]
-	}
-];
-
-// 异步路由
-export const asnycRoute = [
+	},
 	// 管理页面
 	{
 		path: '/admin',
@@ -415,6 +415,31 @@ export const asnycRoute = [
 					title: '打印功能',
 					hidden: false,
 					icon: 'Printer'
+				}
+			}
+		]
+	},
+	//关于页面
+	{
+		path: '/about',
+		name: 'about',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: 'about',
+			hidden: false,
+			icon: 'Link'
+		},
+		redirect: '/about/about',
+		children: [
+			// 关于系统
+			{
+				path: '/about/about',
+				name: 'about',
+				component: () => import('@/views/about/index.vue'),
+				meta: {
+					title: '关于系统',
+					hidden: false,
+					icon: 'Link'
 				}
 			}
 		]

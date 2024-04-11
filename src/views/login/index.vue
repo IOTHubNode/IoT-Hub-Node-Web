@@ -25,6 +25,15 @@
 										show-password
 										placeholder="请输入密码" />
 								</el-form-item>
+								<el-form-item label="验证码">
+									<el-input v-model="code" placeholder="请输入验证码">
+										<template #append>
+											<div class="login-code" width="100%" @click="refreshCode">
+												<SIdentify :identifyCode="identifyCode"></SIdentify>
+											</div>
+										</template>
+									</el-input>
+								</el-form-item>
 
 								<div class="login-bottom">
 									<div>
@@ -83,10 +92,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 // 引入用户仓库
 import useAccountStore from '@/stores/modules/account';
+// 引入验证码组件
+import SIdentify from '@/components/SIdentify/index.vue';
 // 引入忘记密码组件
 import foget from './components/forgetPassword.vue';
 // 引入element-plus的消息提示
@@ -100,6 +111,11 @@ const accountStore = useAccountStore();
 
 const activeName = ref('first');
 const router = useRouter();
+
+//随机串内容,从这里随机抽几个显示验证码
+const identifyCodes = '1234567890abcdefjhijklinopqrsduvwxyz';
+//验证码图片内容
+const identifyCode = ref('');
 
 // 表单对齐方式
 // const labelPosition = ref('left');
@@ -119,6 +135,9 @@ const loginData: LoginData = reactive({
 	Password: ''
 });
 
+// 验证码
+const code = ref('');
+
 // // 定义注册表单数据
 // const registerData: RegisterData = reactive({
 // 	Account: '',
@@ -131,11 +150,23 @@ const loginData: LoginData = reactive({
 
 // 定义登陆方法
 const loginButton = async () => {
+	// 判断验证码是否正确
+	if (code.value !== identifyCode.value) {
+		ElMessage.error('验证码错误，请重新输入！');
+		// 刷新
+		refreshCode();
+		return;
+	}
+	// 临时校验,账户密码不为控
+	if (!loginData.Account || !loginData.Password) {
+		ElMessage.error('账户或密码不能为空！');
+		return;
+	}
 	//调用登陆方法
 	try {
 		await accountStore.accountLogin(loginData);
 		// 路由跳转
-		router.push('/dashboard/dataview');
+		router.push('/home/sysview');
 		ElNotification({
 			title: `HI,${getTime()}好!`,
 			message: '登陆成功!',
@@ -152,6 +183,22 @@ const loginButton = async () => {
 // 	//console.log(res);
 // };
 
+//获取验证码的值
+const makeCode = (l: number) => {
+	for (let i = 0; i < l; i++) {
+		//通过循环获取字符串内随机几位
+		//identifyCode.value += identifyCodes[randomNum(0, this.identifyCodes.length)];
+		identifyCode.value += identifyCodes[Math.floor(Math.random() * identifyCodes.length)];
+	}
+};
+
+// 重置验证码
+const refreshCode = () => {
+	identifyCode.value = '';
+	makeCode(4);
+	console.log(identifyCode.value);
+};
+
 // 定义忘记密码组件的引用
 const fogetP = ref();
 // 忘记密码方法
@@ -160,6 +207,12 @@ const forgetPassword = () => {
 	// 打开忘记密码组件
 	fogetP.value.open();
 };
+
+// ------------生命周期函数-------
+// 组件挂载完毕
+onMounted(() => {
+	refreshCode(); // 重置验证码
+});
 </script>
 
 <style scoped lang="scss">
