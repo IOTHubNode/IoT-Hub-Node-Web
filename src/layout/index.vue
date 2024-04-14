@@ -1,7 +1,7 @@
 <template>
 	<div class="menu">
 		<el-container>
-			<el-aside class="aside" :width="isCollapse ? '64px' : '210px'">
+			<el-aside class="aside" :width="isCollapse ? '64px' : '220px'">
 				<el-menu class="el-menu" :collapse-transition="false" :collapse="isCollapse" router>
 					<!-- 头部logo -->
 					<div class="menu-head">

@@ -131,8 +131,8 @@ const identifyCode = ref('');
 
 // 定义登陆表单数据
 const loginData: LoginData = reactive({
-	Account: '',
-	Password: ''
+	Account: '1234',
+	Password: '1234'
 });
 
 // 验证码
