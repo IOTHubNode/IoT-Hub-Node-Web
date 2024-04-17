@@ -195,8 +195,8 @@ const makeCode = (l: number) => {
 // 重置验证码
 const refreshCode = () => {
 	identifyCode.value = '';
+	code.value = '';
 	makeCode(4);
-	console.log(identifyCode.value);
 };
 
 // 定义忘记密码组件的引用
