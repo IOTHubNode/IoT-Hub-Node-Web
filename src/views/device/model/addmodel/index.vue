@@ -9,44 +9,203 @@
 			</el-page-header>
 			<!-- 表单 -->
 			<div>
-				设备类型:
-				<div>
-					<el-radio-group v-model="DeviceModel.ConnectType" size="large">
-						<el-radio-button label="直连设备" value="1" />
-						<el-radio-button label="网关设备" value="2" />
-						<el-radio-button label="网关子设备" value="3" />
-					</el-radio-group>
-				</div>
-				<!-- 类型名称 -->
-				<div class="flex gap-4 mb-4">
-					<span>物模型名称</span>
-					<!-- <el-input
-						v-model="input1"
-						style="width: 240px"
-						placeholder="Pick a date"
-						:suffix-icon="Calendar" /> -->
-				</div>
+				<span>物模型名称:</span>
+				<el-input
+					v-model="DeviceModel.Name"
+					style="width: 240px"
+					placeholder="请输入唯一模型名称" />
+			</div>
+
+			<!-- 图片 -->
+			<span>图片上传:</span>
+			<el-upload
+				class="avatar-uploader"
+				action="https://www.duruofu.xyz:10001/v1/util/local_picture"
+				:headers="{ Authorization: GET_TOKEN() }"
+				:limit="1"
+				:on-exceed="handleExceed"
+				:show-file-list="false"
+				:on-success="handleAvatarSuccess"
+				:before-upload="beforeAvatarUpload">
+				<img v-if="DeviceModel.Image" :src="DeviceModel.Image" class="avatar" />
+				<el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+			</el-upload>
+
+			<div>
+				<span>设备类型:</span>
+
+				<el-radio-group v-model="DeviceModel.ConnectType" size="large">
+					<el-radio-button label="直连设备" value="1" />
+					<el-radio-button label="网关设备" value="2" />
+					<el-radio-button label="网关子设备" value="3" />
+				</el-radio-group>
+			</div>
+			<div>
+				<span>设备通信协议:</span>
+				<el-select
+					v-model="DeviceModel.CommunicationType"
+					clearable
+					placeholder="选择设备通信协议"
+					style="width: 240px">
+					<el-option
+						v-for="item in CommunicationTypeoptions"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value" />
+				</el-select>
+			</div>
+			<div>
+				<span>设备接入协议:</span>
+				<el-select
+					v-model="DeviceModel.ProtocolType"
+					clearable
+					placeholder="选择设备接入协议"
+					style="width: 240px">
+					<el-option
+						v-for="item in ProtocolTypeoptions"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value" />
+				</el-select>
+			</div>
+			<div>
+				<span>物模型描述:</span>
+				<el-input
+					v-model="DeviceModel.IsDisabled"
+					style="width: 240px"
+					type="textarea"
+					placeholder="请输入描述" />
 			</div>
 		</el-card>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { GET_TOKEN } from '@/utils/token';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import { genFileId, ElMessage } from 'element-plus';
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 const router = useRouter();
 
 const DeviceModel = reactive({
 	Name: '',
 	Description: '',
 	ConnectType: '直连设备',
-	Data: '',
-	IsDisabled: false
+	CommunicationType: '',
+	ProtocolType: '',
+	Image: '',
+	Content: '',
+	IsDisabled: ''
 });
+
+const upload = ref<UploadInstance>();
+
+// 通信协议选项
+const CommunicationTypeoptions = [
+	{
+		value: '1',
+		label: 'WIFI'
+	},
+	{
+		value: '2',
+		label: '4G'
+	},
+	{
+		value: '3',
+		label: 'NB-IoT'
+	},
+	{
+		value: '4',
+		label: '其他'
+	}
+];
+// 接入协议选型
+const ProtocolTypeoptions = [
+	{
+		value: '1',
+		label: 'MQTT'
+	},
+	{
+		value: '2',
+		label: 'HTTP'
+	},
+	{
+		value: '3',
+		label: 'CoAP'
+	},
+	{
+		value: '4',
+		label: 'TCP'
+	},
+	{
+		value: '5',
+		label: 'UDP'
+	},
+	{
+		value: '6',
+		label: '其他'
+	}
+];
+
+// 图片上传
+const handleExceed: UploadProps['onExceed'] = (files) => {
+	upload.value!.clearFiles();
+	const file = files[0] as UploadRawFile;
+	file.uid = genFileId();
+	upload.value!.handleStart(file);
+};
+
+// 上传成功
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+	DeviceModel.Image = URL.createObjectURL(uploadFile.raw!);
+};
+
+// 上传前的处理
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+	if (rawFile.type !== 'image/jpeg') {
+		ElMessage.error('Avatar picture must be JPG format!');
+		return false;
+	} else if (rawFile.size / 1024 / 1024 > 2) {
+		ElMessage.error('Avatar picture size can not exceed 2MB!');
+		return false;
+	}
+	return true;
+};
 
 const goBack = () => {
 	router.go(-1);
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+// 头像
+.avatar-uploader .avatar {
+	width: 150px;
+	height: 150px;
+	display: block;
+	border: 1px dashed var(--el-border-color);
+}
+
+.avatar-uploader .el-upload {
+	border: 1px dashed var(--el-border-color);
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+	border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	border: 1px dashed var(--el-border-color);
+}
+</style>
