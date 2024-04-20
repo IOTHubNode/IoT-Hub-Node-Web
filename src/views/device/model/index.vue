@@ -8,31 +8,41 @@
 			<!-- 有数据 -->
 			<div class="has-data" v-if="deviceModelList.length > 0">
 				<!-- 循环生成物模型卡片 -->
-				<el-row :gutter="20">
-					<div :span="6" v-for="(item, index) in deviceModelList" :key="index">
-						<!-- 填充卡片 -->
-						<el-card class="model-card" @click="modelButton">
-							<template #header>
-								<div class="card-header">
-									<span>{{ item.Name }}</span>
-								</div>
-							</template>
-							<p v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</p>
-							<template #footer>
-								<div class="card-footer">
-									<!-- 设备类型 -->
-									<div>
-										<el-tag v-if="item.ConnectType === 1" type="success">直连设备</el-tag>
-										<el-tag v-else-if="item.ConnectType === 2" type="success">网关设备</el-tag>
-										<el-tag v-else-if="item.ConnectType === 3" type="success">网关子设备</el-tag>
-										<el-tag v-else type="success">其他设备</el-tag>
+				<el-row :gutter="10">
+					<el-col :span="4" v-for="(item, index) in deviceModelList" :key="index">
+						<div>
+							<!-- 填充卡片 -->
+							<el-card class="model-card" @click="modelButton">
+								<template #header>
+									<div class="card-header">
+										<span>{{ item.Name }}</span>
 									</div>
-									<!-- 设备数量 -->
-									<div class="item">设备数: 0</div>
+								</template>
+								<!-- 内容 -->
+								<div>
+									<el-avatar
+										style="display: block; margin: 0 auto"
+										shape="square"
+										:size="120"
+										fit="cover"
+										:src="updateImageUrl(item.Image)" />
 								</div>
-							</template>
-						</el-card>
-					</div>
+								<template #footer>
+									<div class="card-footer">
+										<!-- 设备类型 -->
+										<div>
+											<el-tag v-if="item.ConnectType === 1" type="success">直连设备</el-tag>
+											<el-tag v-else-if="item.ConnectType === 2" type="success">网关设备</el-tag>
+											<el-tag v-else-if="item.ConnectType === 3" type="success">网关子设备</el-tag>
+											<el-tag v-else type="success">其他设备</el-tag>
+										</div>
+										<!-- 设备数量 -->
+										<div class="item">设备数: 0</div>
+									</div>
+								</template>
+							</el-card>
+						</div>
+					</el-col>
 				</el-row>
 			</div>
 			<!-- 无数据 -->
@@ -56,6 +66,7 @@
 
 <script setup lang="ts">
 import { getDeviceModelList } from '@/api/device/model';
+import { updateImageUrl } from '@/utils/image';
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
@@ -102,9 +113,8 @@ onMounted(() => {
 .box-card {
 	.has-data {
 		.model-card {
-			width: 230px;
+			// width: 230px;
 			margin-top: 20px;
-			margin-left: 20px;
 
 			.card-footer {
 				display: flex;

@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted } from 'vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 // 导入Echarts
 import * as echarts from 'echarts';
