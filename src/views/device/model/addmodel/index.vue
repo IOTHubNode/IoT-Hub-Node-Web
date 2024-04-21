@@ -219,7 +219,7 @@ const addDeviceModelButton = async () => {
 
 	if (res.code == 200) {
 		ElMessage.success('创建成功');
-		router.push('/device/model');
+		router.push('/device');
 	} else {
 		ElMessage.error('创建失败');
 	}

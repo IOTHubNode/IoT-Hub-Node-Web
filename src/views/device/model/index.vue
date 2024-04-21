@@ -12,7 +12,7 @@
 					<el-col :span="4" v-for="(item, index) in deviceModelList" :key="index">
 						<div>
 							<!-- 填充卡片 -->
-							<el-card class="model-card" @click="modelButton">
+							<el-card class="model-card" @click="modelButton(item.DeviceModelId)">
 								<template #header>
 									<div class="card-header">
 										<span>{{ item.Name }}</span>
@@ -80,11 +80,15 @@ const addButton = () => {
 	router.push('/device/deviceModel/addmodel');
 };
 // 模型按钮
-const modelButton = () => {
-	console.log('点击了模型');
-	console.log('router', router.options.routes);
+const modelButton = (id: number) => {
+	console.log(id);
 	// 跳转
-	router.push('/device/deviceModel/detail');
+	router.push({
+		path: '/device/deviceModel/detail',
+		query: {
+			id: id
+		}
+	});
 };
 // 加载数据
 const getData = () => {

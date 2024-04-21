@@ -1,6 +1,6 @@
 // 处理本地图片链接的头部
 export const updateImageUrl = (Imageurl: string) => {
-	console.log(Imageurl);
+	//console.log(Imageurl);
 
 	// 如果是https://开头，则直接返回
 	if (Imageurl.startsWith('http://') || Imageurl.startsWith('https://')) {
