@@ -59,6 +59,21 @@ export default defineConfig(({ command, mode }) => {
 					//rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_URL}`), '')
 				}
 			}
+		},
+
+		// build配置
+		build: {
+			chunkSizeWarningLimit: 1000,
+			rollupOptions: {
+				output: {
+					manualChunks(id) {
+						if (id.includes('node_modules')) {
+							return id.toString().split('node_modules/')[1].split('/')[0].toString();
+						}
+					}
+				}
+			}
+
 		}
 	};
 });
