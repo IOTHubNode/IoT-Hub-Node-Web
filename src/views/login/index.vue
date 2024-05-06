@@ -3,18 +3,25 @@
 		<el-container>
 			<el-aside :xs="0" class="aside hidden-xs-only">
 				<div class="logo">
-					<svg-icon name="login-img" width="340px" height="340px"></svg-icon>
+					<svg-icon name="login-img" width="360px" height="340px"></svg-icon>
 				</div>
-				<div class="title">IOT-Hub-Node</div>
-				<div class="title">开箱即用的通用物联网平台</div>
+				<div class="title-1">IOT-Hub-Node</div>
+				<div class="title-2">开箱即用的通用物联网平台</div>
 			</el-aside>
 			<el-main class="main">
+				<!-- <div>
+					<div class="logo">
+						<svg-icon name="login-img" width="360px" height="340px"></svg-icon>
+					</div>
+					<div class="title-1">IOT-Hub-Node</div>
+					<div class="title-2">开箱即用的通用物联网平台</div>
+				</div> -->
 				<el-card class="box-card">
-					<div class="main-title-1">IOT-Hub-Node</div>
-					<div class="main-title-2">开箱即用的通用物联网平台</div>
+					<div class="main-title-1 hidden-xs-only">IOT-Hub-Node</div>
+					<div class="main-title-2 hidden-xs-only">开箱即用的通用物联网平台</div>
 					<el-tabs v-model="activeName" class="demo-tabs" :stretch="true">
 						<el-tab-pane label="登陆" name="first">
-							<el-form class="login-form">
+							<el-form class="login-form" label-position="left">
 								<el-form-item label="账户">
 									<el-input v-model="loginData.Account" placeholder="请输入账户" />
 								</el-form-item>
@@ -25,7 +32,7 @@
 										show-password
 										placeholder="请输入密码" />
 								</el-form-item>
-								<el-form-item label="验证码">
+								<el-form-item label="验证码" class="centered-label">
 									<el-input v-model="code" placeholder="请输入验证码">
 										<template #append>
 											<div class="login-code" width="100%" @click="refreshCode">
@@ -51,7 +58,7 @@
 								</div>
 							</el-form>
 						</el-tab-pane>
-						<!-- <el-tab-pane label="注册" name="second">
+						<el-tab-pane label="注册" name="second">
 							<el-form class="register-form" :label-position="labelPosition" label-width="70px">
 								<el-form-item label="账户">
 									<el-input v-model="registerData.Account" placeholder="请输入账户" />
@@ -81,7 +88,7 @@
 									</div>
 								</div>
 							</el-form>
-						</el-tab-pane> -->
+						</el-tab-pane>
 					</el-tabs>
 				</el-card>
 			</el-main>
@@ -117,17 +124,17 @@ const identifyCodes = '1234567890abcdefjhijklinopqrsduvwxyz';
 //验证码图片内容
 const identifyCode = ref('');
 
-// 表单对齐方式
-// const labelPosition = ref('left');
+//表单对齐方式
+const labelPosition = ref('left');
 
-// interface RegisterData {
-// 	Account: string;
-// 	Password_1: string;
-// 	Password_2: string;
-// 	Email_Phone: string;
-// 	Code: string;
-// 	Check: boolean;
-// }
+interface RegisterData {
+	Account: string;
+	Password_1: string;
+	Password_2: string;
+	Email_Phone: string;
+	Code: string;
+	Check: boolean;
+}
 
 // 定义登陆表单数据
 const loginData: LoginData = reactive({
@@ -138,15 +145,15 @@ const loginData: LoginData = reactive({
 // 验证码
 const code = ref('');
 
-// // 定义注册表单数据
-// const registerData: RegisterData = reactive({
-// 	Account: '',
-// 	Password_1: '',
-// 	Password_2: '',
-// 	Email_Phone: '',
-// 	Code: '',
-// 	Check: false
-// });
+// 定义注册表单数据
+const registerData: RegisterData = reactive({
+	Account: '',
+	Password_1: '',
+	Password_2: '',
+	Email_Phone: '',
+	Code: '',
+	Check: false
+});
 
 // 定义登陆方法
 const loginButton = async () => {
@@ -177,11 +184,11 @@ const loginButton = async () => {
 	}
 };
 
-// // 定义注册方法
-// const registerButton = async () => {
-// 	//const res = await register(registerData);
-// 	//console.log(res);
-// };
+// 定义注册方法
+const registerButton = async () => {
+	//const res = await register(registerData);
+	//console.log(res);
+};
 
 //获取验证码的值
 const makeCode = (l: number) => {
@@ -230,7 +237,7 @@ onMounted(() => {
 		justify-content: center;
 		width: 40%;
 		height: 100vh;
-		background: linear-gradient(135deg, #6078ea, #17ead9);
+		background: linear-gradient(135deg, #5bdf82, #47caff);
 
 		// 圆角
 		border-radius: 1%;
@@ -251,10 +258,19 @@ onMounted(() => {
 			}
 		}
 
-		.title {
+		.title-1 {
+			font-size: 46px;
+			font-weight: bold;
+			background: linear-gradient(135deg, #3777b7, #449d42);
+			background-clip: text;
+			-webkit-background-clip: text; /*将设置的背景颜色限制在文字中*/
+			-webkit-text-fill-color: transparent; /*给文字设置成透明*/
+		}
+		.title-2 {
 			margin-top: 15px;
-			font-size: 30px;
-			color: #fff;
+			font-size: 40px;
+			font-weight: bold;
+			color: #3e3f43;
 		}
 	}
 
@@ -294,7 +310,7 @@ onMounted(() => {
 		}
 
 		.box-card {
-			width: 430px;
+			width: 55%;
 			height: 70%;
 
 			// 登陆表单
