@@ -62,11 +62,11 @@
 
 				<!-- 标签页 -->
 				<el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
-					<el-tab-pane label="设备列表" name="1">
-						<List :DeviceModelID="DeviceModel.ID"></List>
+					<el-tab-pane label="概览" name="1">
+						<Overview :DeviceModelID="DeviceModel.ID"></Overview>
 					</el-tab-pane>
-					<el-tab-pane label="模型定义" name="2">
-						<Definition :DeviceModelID="DeviceModel.ID"></Definition>
+					<el-tab-pane label="接入" name="2">
+						<Access :DeviceModelID="DeviceModel.ID"></Access>
 					</el-tab-pane>
 					<el-tab-pane label="拓展属性" name="3">
 						<Expand :DeviceModelID="DeviceModel.ID"></Expand>
@@ -80,7 +80,10 @@
 					<el-tab-pane label="告警" name="6">
 						<Warning :DeviceModelID="DeviceModel.ID"></Warning>
 					</el-tab-pane>
-					<el-tab-pane label="设置" name="7">
+					<el-tab-pane label="调试" name="7">
+						<Debug :DeviceModelID="DeviceModel.ID"></Debug>
+					</el-tab-pane>
+					<el-tab-pane label="设置" name="8">
 						<Config :DeviceModelID="DeviceModel.ID"></Config>
 						<!-- 移除设备 -->
 						<div>
@@ -96,12 +99,13 @@
 
 <script setup lang="ts">
 // 引入页面组件
-import List from './components/list/index.vue';
-import Definition from './components/definition/index.vue';
+import Overview from './components/overview/index.vue';
+import Access from './components/definition/index.vue';
 import Expand from './components/expand/index.vue';
 import Rule from './components/rule/index.vue';
 import Task from './components/task/index.vue';
 import Warning from './components/warning/index.vue';
+import Debug from './components/debug/index.vue';
 import Config from './components/config/index.vue';
 
 import { useRouter } from 'vue-router';

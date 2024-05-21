@@ -37,7 +37,7 @@
 											<el-tag v-else type="success">其他设备</el-tag>
 										</div>
 										<!-- 设备数量 -->
-										<div class="item">设备数: 0</div>
+										<div class="item">设备数: {{ item.Device.length }}</div>
 									</div>
 								</template>
 							</el-card>

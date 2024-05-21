@@ -1,5 +1,5 @@
 <template>
-	列表
+	Debug
 	<div>{{ DeviceModelID }}</div>
 </template>
 

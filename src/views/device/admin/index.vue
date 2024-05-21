@@ -6,7 +6,7 @@
 				<el-button type="primary" icon="Plus" @click="addButton">添加</el-button>
 			</div>
 			<!-- 有数据 -->
-			<div v-if="deviceList.length > 0">
+			<div class="has-data" v-if="deviceList.length > 0">
 				<!-- 循环生成物模型卡片 -->
 				<el-row :gutter="10">
 					<el-col :span="4" v-for="(item, index) in deviceList" :key="index">
@@ -18,24 +18,24 @@
 								</div>
 							</template>
 							<!-- 内容 -->
-							<!-- <div>
+							<div>
 								<el-avatar
 									style="display: block; margin: 0 auto"
 									shape="square"
 									:size="120"
 									fit="cover"
-									:src="updateImageUrl(item.Image)" />
-							</div> -->
+									:src="updateImageUrl(item.DeviceModel.Image)" />
+							</div>
 							<template #footer>
 								<div class="card-footer">
 									<!-- 设备状态 -->
 									<div>
 										<el-tag v-if="item.Status === 1" type="success">在线</el-tag>
-										<el-tag v-else-if="item.Status === 2" type="success">离线</el-tag>
-										<el-tag v-else-if="item.Status === 3" type="success">异常</el-tag>
+										<el-tag v-else-if="item.Status === 2" type="danger">离线</el-tag>
+										<el-tag v-else-if="item.Status === 3" type="warning">异常</el-tag>
 									</div>
-									<!-- 设备数量 -->
-									<div class="item">设备数: 0</div>
+									<!-- 设备类型 -->
+									<el-tag class="item">{{ item.DeviceModel.Name }}</el-tag>
 								</div>
 							</template>
 						</el-card>
@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import { getDeviceList } from '@/api/device/admin';
 import { ref, onMounted, watch } from 'vue';
+import { updateImageUrl } from '@/utils/image';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 const router = useRouter();
