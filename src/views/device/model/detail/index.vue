@@ -62,13 +62,26 @@
 
 				<!-- 标签页 -->
 				<el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
-					<el-tab-pane label="设备列表" name="1">设备列表</el-tab-pane>
-					<el-tab-pane label="模型定义" name="2">Config</el-tab-pane>
-					<el-tab-pane label="拓展属性" name="3">Config</el-tab-pane>
-					<el-tab-pane label="规则" name="4">Role</el-tab-pane>
-					<el-tab-pane label="任务" name="5">Role</el-tab-pane>
-					<el-tab-pane label="告警" name="6">Role</el-tab-pane>
+					<el-tab-pane label="设备列表" name="1">
+						<List :DeviceModelID="DeviceModel.ID"></List>
+					</el-tab-pane>
+					<el-tab-pane label="模型定义" name="2">
+						<Definition :DeviceModelID="DeviceModel.ID"></Definition>
+					</el-tab-pane>
+					<el-tab-pane label="拓展属性" name="3">
+						<Expand :DeviceModelID="DeviceModel.ID"></Expand>
+					</el-tab-pane>
+					<el-tab-pane label="规则" name="4">
+						<Rule :DeviceModelID="DeviceModel.ID"></Rule>
+					</el-tab-pane>
+					<el-tab-pane label="任务" name="5">
+						<Task :DeviceModelID="DeviceModel.ID"></Task>
+					</el-tab-pane>
+					<el-tab-pane label="告警" name="6">
+						<Warning :DeviceModelID="DeviceModel.ID"></Warning>
+					</el-tab-pane>
 					<el-tab-pane label="设置" name="7">
+						<Config :DeviceModelID="DeviceModel.ID"></Config>
 						<!-- 移除设备 -->
 						<div>
 							<el-button type="danger">移除设备</el-button>
@@ -82,6 +95,15 @@
 </template>
 
 <script setup lang="ts">
+// 引入页面组件
+import List from './components/list/index.vue';
+import Definition from './components/definition/index.vue';
+import Expand from './components/expand/index.vue';
+import Rule from './components/rule/index.vue';
+import Task from './components/task/index.vue';
+import Warning from './components/warning/index.vue';
+import Config from './components/config/index.vue';
+
 import { useRouter } from 'vue-router';
 import type { TabsPaneContext } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
@@ -93,6 +115,7 @@ const router = useRouter();
 const activeName = ref('first');
 
 const DeviceModel = reactive({
+	ID: '',
 	Name: '',
 	Description: '',
 	ConnectType: '1',
@@ -115,6 +138,7 @@ const getDeviceModeData = async (id: any) => {
 	const res = await getDeviceModel(id);
 	if (res.code === 200) {
 		// 赋值（对象拷贝）
+		DeviceModel.ID = res.data.DeviceModelId;
 		DeviceModel.Name = res.data.Name;
 		DeviceModel.Description = res.data.Description;
 		DeviceModel.ConnectType = res.data.ConnectType;
