@@ -9,71 +9,56 @@
 			</el-page-header>
 			<!-- 表单 -->
 			<div style="margin-bottom: 20px">
-				<span>物模型名称:</span>
-				<el-input
-					v-model="DeviceModel.Name"
-					style="width: 240px"
-					placeholder="请输入唯一模型名称" />
+				<span>设备名称:</span>
+				<el-input v-model="Device.Name" style="width: 240px" placeholder="请输入设备名称" />
 			</div>
 
-			<!-- 图片 -->
-			<span>图片上传:</span>
-			<el-upload
-				ref="upload"
-				class="avatar-uploader"
-				action="https://www.duruofu.xyz:10001/v1/util/local_picture"
-				:headers="{ Authorization: GET_TOKEN() }"
-				:limit="1"
-				:on-exceed="handleExceed"
-				:show-file-list="false"
-				:on-success="handleAvatarSuccess"
-				:before-upload="beforeAvatarUpload"
-				style="margin-bottom: 20px">
-				<img v-if="DeviceModel.Image" :src="Imageurl" class="avatar" />
-				<el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-			</el-upload>
-
 			<div style="margin-bottom: 20px">
-				<span>设备类型:</span>
-
-				<el-radio-group v-model="DeviceModel.ConnectType" size="large">
-					<el-radio-button label="1" value="1">直连设备</el-radio-button>
-					<el-radio-button label="2" value="2">网关设备</el-radio-button>
-					<el-radio-button label="3" value="3">网关子设备</el-radio-button>
-				</el-radio-group>
-			</div>
-			<div style="margin-bottom: 20px">
-				<span>设备通信协议:</span>
+				<span>设备类型</span>
 				<el-select
-					v-model="DeviceModel.CommunicationType"
+					v-model="Device.DeviceModelId"
 					clearable
-					placeholder="选择设备通信协议"
+					placeholder="选择设备物模型"
 					style="width: 240px">
 					<el-option
-						v-for="item in CommunicationTypeoptions"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value" />
+						v-for="item in deviceModelList"
+						:key="item.DeviceModelId"
+						:label="item.Name"
+						:value="item.DeviceModelId" />
 				</el-select>
 			</div>
 			<div style="margin-bottom: 20px">
-				<span>设备接入协议:</span>
+				<span>设备组</span>
 				<el-select
-					v-model="DeviceModel.ProtocolType"
+					v-model="Device.DeviceGroupId"
 					clearable
 					placeholder="选择设备接入协议"
 					style="width: 240px">
 					<el-option
-						v-for="item in ProtocolTypeoptions"
+						v-for="item in DeviceGroupoptions"
 						:key="item.value"
 						:label="item.label"
 						:value="item.value" />
 				</el-select>
 			</div>
 			<div style="margin-bottom: 20px">
-				<span>物模型描述:</span>
+				<span>所属组织</span>
+				<el-select
+					v-model="Device.OrganizationId"
+					clearable
+					placeholder="选择设备所属组织"
+					style="width: 240px">
+					<el-option
+						v-for="item in Organizationoptions"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value" />
+				</el-select>
+			</div>
+			<div style="margin-bottom: 20px">
+				<span>设备描述:</span>
 				<el-input
-					v-model="DeviceModel.Description"
+					v-model="Device.Description"
 					style="width: 240px"
 					type="textarea"
 					placeholder="请输入描述" />
@@ -85,7 +70,7 @@
 			</div>
 			<div style="margin-bottom: 20px">
 				<el-alert
-					title="注意: 创建物模型后, 请到设备管理中添加设备"
+					title="注意: 创建设备后, 请到设备详情中查看设备密钥"
 					type="warning"
 					:closable="false" />
 			</div>
@@ -94,132 +79,53 @@
 </template>
 
 <script setup lang="ts">
-import { GET_TOKEN } from '@/utils/token';
-import { ref, reactive } from 'vue';
+import { getDeviceModelList } from '@/api/device/model';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { genFileId, ElMessage } from 'element-plus';
-import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import { addDeviceModel } from '@/api/device/model';
-
+import { ElMessage } from 'element-plus';
+import { addDevice } from '@/api/device/admin';
 const router = useRouter();
 
-const DeviceModel = reactive({
+const deviceModelList: any = ref(''); // 设备模型列表
+
+const Device = reactive({
 	Name: '',
-	Description: '',
-	ConnectType: '1',
-	CommunicationType: '',
-	ProtocolType: '',
-	Image: '',
-	Content: { name: 'test' },
-	IsDisabled: ''
+	DeviceModelId: '',
+	DeviceGroupId: '0',
+	OrganizationId: '0',
+	Description: ''
 });
 
-const Imageurl = ref('');
-const upload = ref<UploadInstance>();
-
-// 通信协议选项
-const CommunicationTypeoptions = [
+// 设备组选选项
+const DeviceGroupoptions = [
 	{
-		value: '1',
-		label: 'WIFI'
-	},
-	{
-		value: '2',
-		label: '4G'
-	},
-	{
-		value: '3',
-		label: 'NB-IoT'
-	},
-	{
-		value: '4',
-		label: '其他'
+		value: '0',
+		label: '默认'
 	}
 ];
-// 接入协议选型
-const ProtocolTypeoptions = [
+// 所属组织选型
+const Organizationoptions = [
 	{
-		value: '1',
-		label: 'MQTT'
-	},
-	{
-		value: '2',
-		label: 'HTTP'
-	},
-	{
-		value: '3',
-		label: 'CoAP'
-	},
-	{
-		value: '4',
-		label: 'TCP'
-	},
-	{
-		value: '5',
-		label: 'UDP'
-	},
-	{
-		value: '6',
-		label: '其他'
+		value: '0',
+		label: '默认'
 	}
 ];
-
-// 图片上传
-const handleExceed: UploadProps['onExceed'] = (files) => {
-	// 数量超出
-	upload.value!.clearFiles();
-	const file = files[0] as UploadRawFile;
-	file.uid = genFileId();
-	upload.value!.handleStart(file);
-	upload.value!.submit();
-};
-
-// 上传成功
-const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-	console.log(response);
-	// 更新显示
-	Imageurl.value = URL.createObjectURL(uploadFile.raw!);
-	// 保存路径
-	DeviceModel.Image = response.data;
-	console.log(DeviceModel.Image);
-};
-
-// 上传前的处理
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-	// 类型限制
-	if (
-		rawFile.type !== 'image/jpeg' &&
-		rawFile.type !== 'image/png' &&
-		rawFile.type !== 'image/gif'
-	) {
-		ElMessage.error('Avatar picture must be JPG/PNG/GIF format!');
-		return false;
-	}
-	// 大小限制
-	else if (rawFile.size / 1024 / 1024 > 2) {
-		ElMessage.error('Avatar picture size can not exceed 2MB!');
-		return false;
-	}
-	return true;
-};
 
 const addDeviceModelButton = async () => {
-	console.log(DeviceModel);
-	const res = await addDeviceModel({
-		Name: DeviceModel.Name,
-		Description: DeviceModel.Description,
-		ConnectType: DeviceModel.ConnectType,
-		CommunicationType: DeviceModel.CommunicationType,
-		ProtocolType: DeviceModel.ProtocolType,
-		Image: DeviceModel.Image,
-		Content: DeviceModel.Content
+	console.log(Device);
+	const res = await addDevice({
+		Name: Device.Name,
+		Description: Device.Description,
+		DeviceModelId: Device.DeviceModelId,
+		DeviceGroupId: Device.DeviceGroupId,
+		OrganizationId: Device.OrganizationId
 	});
 
 	console.log(res);
 
 	if (res.code == 200) {
 		ElMessage.success('创建成功');
-		router.push('/device');
+		router.push('/device/deviceAdmin');
 	} else {
 		ElMessage.error('创建失败');
 	}
@@ -228,6 +134,24 @@ const addDeviceModelButton = async () => {
 const goBack = () => {
 	router.go(-1);
 };
+
+// 加载数据
+const getData = () => {
+	getDeviceModelList()
+		.then((res) => {
+			console.log(res);
+			deviceModelList.value = res.data;
+		})
+		.catch((err) => {
+			// 弹窗
+			ElMessage.error('获取设备类型数据失败', err);
+		});
+};
+
+// 组件挂载完毕
+onMounted(() => {
+	getData(); // 获取表格数据
+});
 </script>
 
 <style scoped lang="scss">

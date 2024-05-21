@@ -228,7 +228,7 @@ export const asnycRoute = [
 						}
 					},
 					{
-						path: '/device/device/addmodel',
+						path: '/device/device/adddevice',
 						name: 'addDevice',
 						component: () => import('@/views/device/admin/adddevice/index.vue'),
 						meta: {

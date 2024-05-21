@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import { getDeviceModelList } from '@/api/device/model';
 import { updateImageUrl } from '@/utils/image';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -107,6 +107,17 @@ const getData = () => {
 onMounted(() => {
 	getData(); // 获取表格数据
 });
+
+// 监听路由变化
+watch(
+	() => router.currentRoute.value.path,
+	(newValue) => {
+		if (newValue === '/device/deviceModel') {
+			getData(); // 获取表格数据
+		}
+	},
+	{ immediate: true }
+);
 </script>
 
 <style scoped lang="scss">
