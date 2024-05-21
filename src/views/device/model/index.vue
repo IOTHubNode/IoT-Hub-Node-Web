@@ -110,10 +110,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.model-list {
-	z-index: 0;
-}
-
 .box-card {
 	.has-data {
 		.model-card {

@@ -215,7 +215,29 @@ export const asnycRoute = [
 					title: '设备',
 					hidden: false,
 					icon: 'Monitor'
-				}
+				},
+				children: [
+					{
+						path: '/device/device/detail',
+						name: 'deviceDetail',
+						component: () => import('@/views/device/admin/detail/index.vue'),
+						meta: {
+							title: '设备详情',
+							hidden: true,
+							icon: 'MessageBox'
+						}
+					},
+					{
+						path: '/device/device/addmodel',
+						name: 'addDevice',
+						component: () => import('@/views/device/admin/adddevice/index.vue'),
+						meta: {
+							title: '添加设备',
+							hidden: true,
+							icon: 'MessageBox'
+						}
+					}
+				]
 			}
 		]
 	},

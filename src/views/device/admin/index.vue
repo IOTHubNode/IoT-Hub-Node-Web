@@ -1,21 +1,49 @@
 <template>
 	<div>
-		<el-card class="box-card" fit="true">
+		<el-card class="box-card" fit="true" v-if="$route.path === '/device/deviceAdmin'">
 			<!-- 卡片头部添加按钮 -->
 			<div class="button">
 				<el-button type="primary" icon="Plus" @click="addButton">添加</el-button>
 			</div>
 			<!-- 有数据 -->
-			<div v-if="deviceModelList.length > 0">
+			<div v-if="deviceList.length > 0">
 				<!-- 循环生成物模型卡片 -->
-				<el-row :gutter="20">
-					<div :span="6" v-for="(item, index) in deviceModelList" :key="index">
-						<el-card shadow="hover" style="margin-bottom: 20px">1</el-card>
-					</div>
+				<el-row :gutter="10">
+					<el-col :span="4" v-for="(item, index) in deviceList" :key="index">
+						<!-- 填充卡片 -->
+						<el-card class="model-card" @click="Button(item.DeviceId)">
+							<template #header>
+								<div class="card-header">
+									<span>{{ item.Name }}</span>
+								</div>
+							</template>
+							<!-- 内容 -->
+							<!-- <div>
+								<el-avatar
+									style="display: block; margin: 0 auto"
+									shape="square"
+									:size="120"
+									fit="cover"
+									:src="updateImageUrl(item.Image)" />
+							</div> -->
+							<template #footer>
+								<div class="card-footer">
+									<!-- 设备状态 -->
+									<div>
+										<el-tag v-if="item.Status === 1" type="success">在线</el-tag>
+										<el-tag v-else-if="item.Status === 2" type="success">离线</el-tag>
+										<el-tag v-else-if="item.Status === 3" type="success">异常</el-tag>
+									</div>
+									<!-- 设备数量 -->
+									<div class="item">设备数: 0</div>
+								</div>
+							</template>
+						</el-card>
+					</el-col>
 				</el-row>
 			</div>
 			<!-- 无数据 -->
-			<div class="no-data" v-if="deviceModelList.length == 0">
+			<div class="no-data" v-if="deviceList.length == 0">
 				<div class="title">添加设备</div>
 				<div class="desc">
 					支持各种单片机、嵌入式设备、传感器、执行器、控制器、网关、DTU、PLC等，支持MQTT、HTTP、TCP自定义协议。
@@ -23,25 +51,41 @@
 				<el-button type="primary" size="large" @click="addButton">立即添加设备</el-button>
 			</div>
 		</el-card>
+		<router-view></router-view>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { getDeviceModelList } from '@/api/device/model';
+import { getDeviceList } from '@/api/device/admin';
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
-
-const deviceModelList = ref(''); // 设备模型列表
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const deviceList: any = ref(''); // 设备模型列表
 
 // 添加按钮
-const addButton = () => {};
+const addButton = () => {
+	// 跳转
+	router.push('/device/device/adddevice');
+};
 
+// 模型按钮
+const Button = (id: number) => {
+	console.log(id);
+	// 跳转
+	router.push({
+		path: '/device/device/detail',
+		query: {
+			id: id
+		}
+	});
+};
 // 加载数据
 const getData = () => {
-	getDeviceModelList()
+	getDeviceList()
 		.then((res) => {
 			console.log(res);
-			deviceModelList.value = res.data;
+			deviceList.value = res.data;
 		})
 		.catch((err) => {
 			// 弹窗
@@ -57,7 +101,23 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .box-card {
-	height: 80vh;
+	.has-data {
+		.model-card {
+			// width: 230px;
+			margin-top: 20px;
+
+			.card-footer {
+				display: flex;
+				justify-content: space-between;
+				.item {
+					// 居中
+					display: flex;
+					align-items: center;
+					font-size: 14px;
+				}
+			}
+		}
+	}
 
 	.no-data {
 		display: flex;
@@ -65,13 +125,8 @@ onMounted(() => {
 		justify-content: center;
 		align-items: center;
 		height: 100%;
-		.title {
-			margin-top: 140px;
-			font-size: 24px;
-			color: #333;
-		}
 		.desc {
-			margin-top: 20px;
+			margin-top: 0px;
 			font-size: 16px;
 			color: #666;
 		}
