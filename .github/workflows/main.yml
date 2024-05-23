@@ -1,0 +1,30 @@
+name: Push to Cloud Server
+
+on:
+  push:
+    branches:
+      - dev  # 替换为您要触发工作流的分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # 替换为您的云服务器操作系统
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install  # 或者使用 yarn install，取决于您的项目使用的包管理器
+
+      - name: Build project with Vue
+        run: npm run build  # 替换为您项目中使用的构建命令
+
+      # - name: Transfer files to cloud server
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.SERVER_HOST }}  # 替换为您的云服务器主机名或IP地址
+      #     username: ${{ secrets.SERVER_USERNAME }}  # 替换为您的云服务器用户名
+      #     password: ${{ secrets.SERVER_PASSWORD }}  # 替换为您的云服务器密码
+      #     port: 22  # 替换为您的云服务器端口
+      #     source: "dist/"
+      #     target: /root/data/docker_data/npm/data/www  # 替换为您想要推送到的目标目录
