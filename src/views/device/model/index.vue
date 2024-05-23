@@ -90,6 +90,7 @@ const modelButton = (id: number) => {
 		}
 	});
 };
+
 // 加载数据
 const getData = () => {
 	getDeviceModelList()
