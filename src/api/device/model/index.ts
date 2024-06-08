@@ -8,3 +8,6 @@ export const getDeviceModelList = () => request.get<any, any>('v1/d_model/device
 
 // 获取某个物模型
 export const getDeviceModel = (id: string) => request.get<any, any>(`v1/d_model/devicemodel/${id}`);
+
+// 查询某个物模型下的设备列表
+export const getDevicesData = (id: string) => request.get<any, any>(`v1/d_model/${id}/devices`);
