@@ -212,7 +212,13 @@ const addDeviceModelButton = async () => {
 		CommunicationType: DeviceModel.CommunicationType,
 		ProtocolType: DeviceModel.ProtocolType,
 		Image: DeviceModel.Image,
-		Content: DeviceModel.Content
+		Content: {
+			productKey: '0000',
+			modelName: DeviceModel.Name,
+			attributes: [],
+			functions: [],
+			events: []
+		}
 	});
 
 	console.log(res);
