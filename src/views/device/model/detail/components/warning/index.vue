@@ -1,6 +1,5 @@
 <template>
-	告警
-	<div>{{ DeviceModelID }}</div>
+	<el-empty :image-size="200" description="暂无告警" />
 </template>
 
 <script setup lang="ts">

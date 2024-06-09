@@ -1,6 +1,5 @@
 <template>
-	规则
-	<div>{{ DeviceModelID }}</div>
+	<el-empty :image-size="200" description="暂无规则" />
 </template>
 
 <script setup lang="ts">
