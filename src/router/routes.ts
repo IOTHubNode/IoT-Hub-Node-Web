@@ -266,7 +266,7 @@ export const asnycRoute = [
 			},
 			// 设备
 			{
-				path: '/about/about',
+				path: '/operations/device',
 				name: 'deviceAdmin1',
 				component: () => import('@/views/about/index.vue'),
 				meta: {
@@ -447,7 +447,7 @@ export const asnycRoute = [
 		name: 'about',
 		component: () => import('@/layout/index.vue'),
 		meta: {
-			title: 'about',
+			title: '关于',
 			hidden: false,
 			icon: 'Link'
 		},
