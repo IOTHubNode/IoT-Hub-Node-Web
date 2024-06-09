@@ -11,7 +11,7 @@
 				</template>
 				<template #extra>
 					<div class="flex items-center">
-						<el-button>导出</el-button>
+						<el-button @click="exportButton">导出</el-button>
 						<el-button type="primary" class="ml-2">编辑</el-button>
 					</div>
 				</template>
@@ -145,6 +145,18 @@ const getDeviceModeData = async (id: any) => {
 		DeviceModel.IsDisabled = res.data.IsDisabled;
 	}
 	console.log(DeviceModel);
+};
+
+// 导出按钮
+const exportButton = () => {
+	const jsonStr = JSON.stringify(DeviceModel.Content, null, 2);
+	const blob = new Blob([jsonStr], { type: 'application/json' }); // Create a Blob with JSON data
+	const url = URL.createObjectURL(blob); // Create a URL for the Blob
+	const link = document.createElement('a'); // Create a link element
+	link.href = url;
+	link.download = `${DeviceModel.Name}.json`; // Set the download attribute with the desired file name
+	link.click(); // Programmatically click the link to trigger the download
+	URL.revokeObjectURL(url); // Revoke the URL to release resources
 };
 
 // 组件挂载完毕
