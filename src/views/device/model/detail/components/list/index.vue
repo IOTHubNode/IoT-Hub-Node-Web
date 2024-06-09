@@ -4,17 +4,41 @@
 		<el-button type="primary" icon="Plus" @click="addButton">添加</el-button>
 	</div>
 	<!-- 表格 -->
-	<el-table :data="tableData" style="width: 100%">
-		<el-table-column prop="DeviceId" label="设备ID" width="180" />
-		<el-table-column prop="Name" label="设备名称" width="180" />
-		<el-table-column prop="address" label="描述" />
+	<el-table :data="tableData" style="width: 100%" table-layout="auto">
+		<el-table-column prop="DeviceId" label="设备ID" align="center" />
+		<el-table-column prop="Name" label="设备名称" align="center" />
+		<el-table-column label="IDkey" align="center">
+			<template #default="{ row }">{{ DeviceModelID }}-{{ row.DeviceId }}</template>
+		</el-table-column>
+		<el-table-column prop="Token" label="通行证" align="center" />
+		<el-table-column label="禁用" align="center">
+			<template #default="{ row }">
+				<el-tag v-if="row.IsDisabled" type="danger">禁用</el-tag>
+				<el-tag v-else type="success">启用</el-tag>
+			</template>
+		</el-table-column>
+		<el-table-column label="状态" align="center">
+			<template #default="{ row }">
+				<el-tag v-if="row.Status == 1" type="success">在线</el-tag>
+				<el-tag v-if="row.Status == 2" type="warning">离线</el-tag>
+				<el-tag v-if="row.Status == 3" type="danger">告警</el-tag>
+			</template>
+		</el-table-column>
+		<el-table-column
+			prop="CreatedTime"
+			label="创建时间"
+			sortable
+			:formatter="formatTime"
+			align="center" />
+		<el-table-column prop="Account.Name" label="所有者" align="center" />
+		<el-table-column prop="Description" label="描述" align="center" />
 	</el-table>
-	<div>{{ DeviceModelID }}</div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { getDevicesData } from '@/api/device/model';
+import { formatTime } from '@/utils/time';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 const router = useRouter();
@@ -25,7 +49,7 @@ const tableData = ref<any[]>([]);
 // 添加按钮
 const addButton = () => {
 	// 跳转
-	router.push('/device/deviceModel/addmodel');
+	router.push('/device/device/adddevice');
 };
 
 // 获取父组件数据

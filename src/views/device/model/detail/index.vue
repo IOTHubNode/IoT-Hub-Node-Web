@@ -32,9 +32,9 @@
 						<el-descriptions :column="3" class="mt-4">
 							<el-descriptions-item label="名称:">{{ DeviceModel.Name }}</el-descriptions-item>
 							<el-descriptions-item label="连接类型">
-								<el-tag v-if="DeviceModel.ConnectType == '1'" type="success">直连设备</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="success">网关设备</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="success">
+								<el-tag v-if="DeviceModel.ConnectType == '1'" type="primary">直连设备</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="primary">网关设备</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="primary">
 									网关子设备
 								</el-tag>
 								<el-tag v-else type="success">其他设备</el-tag>
@@ -46,12 +46,12 @@
 								<el-tag v-else type="success">其他</el-tag>
 							</el-descriptions-item>
 							<el-descriptions-item label="接入协议">
-								<el-tag v-if="DeviceModel.ConnectType == '1'" type="success">MQTT</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="success">HTTP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="success">CoAP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '4'" type="success">TCP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '5'" type="success">UDP</el-tag>
-								<el-tag v-else type="success">其他</el-tag>
+								<el-tag v-if="DeviceModel.ConnectType == '1'" type="primary">MQTT</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="primary">HTTP</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="primary">CoAP</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '4'" type="primary">TCP</el-tag>
+								<el-tag v-else-if="DeviceModel.ConnectType == '5'" type="primary">UDP</el-tag>
+								<el-tag v-else type="primary">其他</el-tag>
 							</el-descriptions-item>
 							<el-descriptions-item label="描述信息">
 								{{ DeviceModel.Description }}
@@ -112,7 +112,7 @@ import { getDeviceModel } from '@/api/device/model';
 
 const router = useRouter();
 
-const activeName = ref('first');
+const activeName = ref('1');
 
 const DeviceModel = reactive({
 	ID: '',
