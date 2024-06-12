@@ -60,27 +60,29 @@
 					<el-tab-pane label="接入" name="2">
 						<Access :DeviceModelID="Device.ID"></Access>
 					</el-tab-pane>
-					<el-tab-pane label="拓展属性" name="3">
-						<Expand :DeviceModelID="Device.ID"></Expand>
+					<el-tab-pane label="属性" name="3">
+						<Attribute :DeviceModelID="Device.ID"></Attribute>
 					</el-tab-pane>
-					<el-tab-pane label="规则" name="4">
+					<el-tab-pane label="方法" name="4">
+						<Function :DeviceModelID="Device.ID"></Function>
+					</el-tab-pane>
+					<el-tab-pane label="事件" name="5">
+						<Event :DeviceModelID="Device.ID"></Event>
+					</el-tab-pane>
+					<el-tab-pane label="规则" name="6">
 						<Rule :DeviceModelID="Device.ID"></Rule>
 					</el-tab-pane>
-					<el-tab-pane label="任务" name="5">
+					<el-tab-pane label="任务" name="7">
 						<Task :DeviceModelID="Device.ID"></Task>
 					</el-tab-pane>
-					<el-tab-pane label="告警" name="6">
+					<el-tab-pane label="告警" name="8">
 						<Warning :DeviceModelID="Device.ID"></Warning>
 					</el-tab-pane>
-					<el-tab-pane label="调试" name="7">
+					<el-tab-pane label="调试" name="9">
 						<Debug :DeviceModelID="Device.ID"></Debug>
 					</el-tab-pane>
-					<el-tab-pane label="设置" name="8">
+					<el-tab-pane label="设置" name="10">
 						<Config :DeviceModelID="Device.ID"></Config>
-						<!-- 移除设备 -->
-						<div>
-							<el-button type="danger">移除设备</el-button>
-						</div>
 					</el-tab-pane>
 				</el-tabs>
 			</el-page-header>
@@ -92,8 +94,10 @@
 <script setup lang="ts">
 // 引入页面组件
 import Overview from './components/overview/index.vue';
-import Access from './components/definition/index.vue';
-import Expand from './components/expand/index.vue';
+import Access from './components/access/index.vue';
+import Attribute from './components/attribute/index.vue';
+import Function from './components/function/index.vue';
+import Event from './components/event/index.vue';
 import Rule from './components/rule/index.vue';
 import Task from './components/task/index.vue';
 import Warning from './components/warning/index.vue';

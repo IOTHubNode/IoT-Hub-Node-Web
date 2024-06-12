@@ -1,6 +1,5 @@
 <template>
-	任务
-	<div>{{ DeviceModelID }}</div>
+	<el-empty :image-size="200" description="暂无" />
 </template>
 
 <script setup lang="ts">
