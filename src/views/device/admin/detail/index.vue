@@ -55,7 +55,7 @@
 				<!-- 标签页 -->
 				<el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
 					<el-tab-pane label="概览" name="1">
-						<Overview :DeviceModelID="Device.ID"></Overview>
+						<Overview :DeviceModel="Device.ModelContent" :ID="Device.ID"></Overview>
 					</el-tab-pane>
 					<el-tab-pane label="接入" name="2">
 						<Access
@@ -115,7 +115,7 @@ import { getDevice } from '@/api/device/admin';
 
 const router = useRouter();
 
-const activeName = ref('first');
+const activeName = ref('1');
 
 const Device = reactive({
 	ID: '',
