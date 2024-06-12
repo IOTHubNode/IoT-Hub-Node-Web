@@ -58,7 +58,10 @@
 						<Overview :DeviceModelID="Device.ID"></Overview>
 					</el-tab-pane>
 					<el-tab-pane label="接入" name="2">
-						<Access :DeviceModelID="Device.ID"></Access>
+						<Access
+							:DeviceID="Device.ID"
+							:ModelID="Device.ModelID"
+							:deviceToken="Device.Token"></Access>
 					</el-tab-pane>
 					<el-tab-pane label="属性" name="3">
 						<Attribute :DeviceModelID="Device.ID"></Attribute>
@@ -122,6 +125,7 @@ const Device = reactive({
 	ModelID: '',
 	ModelType: '',
 	Image: '',
+	Token: '',
 	ModelContent: { name: 'test' },
 	UserName: '',
 	IsDisabled: ''
@@ -144,6 +148,7 @@ const getDeviceModeData = async (id: any) => {
 		Device.Name = res.data.Name;
 		Device.Description = res.data.Description;
 		Device.Status = res.data.Status;
+		Device.Token = res.data.Token;
 		Device.ModelID = res.data.DeviceModel.DeviceModelId;
 		Device.ModelType = res.data.DeviceModel.Name;
 		Device.ModelContent = res.data.DeviceModel.Content;
