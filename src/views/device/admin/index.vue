@@ -90,7 +90,7 @@ const getData = () => {
 		})
 		.catch((err) => {
 			// 弹窗
-			ElMessage.error('获取物模型数据失败', err);
+			ElMessage.error('获取设备数据失败', err);
 		});
 };
 

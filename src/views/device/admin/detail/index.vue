@@ -25,36 +25,28 @@
 							shape="square"
 							:size="60"
 							fit="cover"
-							:src="updateImageUrl(DeviceModel.Image)" />
+							:src="updateImageUrl(Device.Image)" />
 					</div>
 					<!-- 介绍 -->
 					<div class="description">
 						<el-descriptions :column="3" class="mt-4">
-							<el-descriptions-item label="名称:">{{ DeviceModel.Name }}</el-descriptions-item>
-							<el-descriptions-item label="连接类型">
-								<el-tag v-if="DeviceModel.ConnectType == '1'" type="success">直连设备</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="success">网关设备</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="success">
-									网关子设备
-								</el-tag>
-								<el-tag v-else type="success">其他设备</el-tag>
+							<el-descriptions-item label="名称:">{{ Device.Name }}</el-descriptions-item>
+							<el-descriptions-item label="物模型">
+								<el-tag type="success">{{ Device.ModelType }}</el-tag>
 							</el-descriptions-item>
-							<el-descriptions-item label="通信类型">
-								<el-tag v-if="DeviceModel.ConnectType == '1'" type="success">WIFI</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="success">4G</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="success">NB-IOT</el-tag>
-								<el-tag v-else type="success">其他</el-tag>
+							<el-descriptions-item label="状态">
+								<el-tag v-if="Device.Status == '1'" type="success">在线</el-tag>
+								<el-tag v-else-if="Device.Status == '2'" type="warning">离线</el-tag>
+								<el-tag v-else-if="Device.Status == '3'" type="danger">异常</el-tag>
 							</el-descriptions-item>
-							<el-descriptions-item label="接入协议">
-								<el-tag v-if="DeviceModel.ConnectType == '1'" type="success">MQTT</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '2'" type="success">HTTP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '3'" type="success">CoAP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '4'" type="success">TCP</el-tag>
-								<el-tag v-else-if="DeviceModel.ConnectType == '5'" type="success">UDP</el-tag>
-								<el-tag v-else type="success">其他</el-tag>
+							<el-descriptions-item label="ID:">
+								{{ Device.ID }}-{{ Device.ModelID }}
+							</el-descriptions-item>
+							<el-descriptions-item label="所属用户:">
+								{{ Device.UserName }}
 							</el-descriptions-item>
 							<el-descriptions-item label="描述信息">
-								{{ DeviceModel.Description }}
+								{{ Device.Description }}
 							</el-descriptions-item>
 						</el-descriptions>
 					</div>
@@ -63,28 +55,28 @@
 				<!-- 标签页 -->
 				<el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
 					<el-tab-pane label="概览" name="1">
-						<Overview :DeviceModelID="DeviceModel.ID"></Overview>
+						<Overview :DeviceModelID="Device.ID"></Overview>
 					</el-tab-pane>
 					<el-tab-pane label="接入" name="2">
-						<Access :DeviceModelID="DeviceModel.ID"></Access>
+						<Access :DeviceModelID="Device.ID"></Access>
 					</el-tab-pane>
 					<el-tab-pane label="拓展属性" name="3">
-						<Expand :DeviceModelID="DeviceModel.ID"></Expand>
+						<Expand :DeviceModelID="Device.ID"></Expand>
 					</el-tab-pane>
 					<el-tab-pane label="规则" name="4">
-						<Rule :DeviceModelID="DeviceModel.ID"></Rule>
+						<Rule :DeviceModelID="Device.ID"></Rule>
 					</el-tab-pane>
 					<el-tab-pane label="任务" name="5">
-						<Task :DeviceModelID="DeviceModel.ID"></Task>
+						<Task :DeviceModelID="Device.ID"></Task>
 					</el-tab-pane>
 					<el-tab-pane label="告警" name="6">
-						<Warning :DeviceModelID="DeviceModel.ID"></Warning>
+						<Warning :DeviceModelID="Device.ID"></Warning>
 					</el-tab-pane>
 					<el-tab-pane label="调试" name="7">
-						<Debug :DeviceModelID="DeviceModel.ID"></Debug>
+						<Debug :DeviceModelID="Device.ID"></Debug>
 					</el-tab-pane>
 					<el-tab-pane label="设置" name="8">
-						<Config :DeviceModelID="DeviceModel.ID"></Config>
+						<Config :DeviceModelID="Device.ID"></Config>
 						<!-- 移除设备 -->
 						<div>
 							<el-button type="danger">移除设备</el-button>
@@ -112,21 +104,22 @@ import { useRouter } from 'vue-router';
 import type { TabsPaneContext } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
 import { updateImageUrl } from '@/utils/image';
-import { getDeviceModel } from '@/api/device/model';
+import { getDevice } from '@/api/device/admin';
 
 const router = useRouter();
 
 const activeName = ref('first');
 
-const DeviceModel = reactive({
+const Device = reactive({
 	ID: '',
 	Name: '',
 	Description: '',
-	ConnectType: '1',
-	CommunicationType: '',
-	ProtocolType: '',
+	Status: '',
+	ModelID: '',
+	ModelType: '',
 	Image: '',
-	Content: { name: 'test' },
+	ModelContent: { name: 'test' },
+	UserName: '',
 	IsDisabled: ''
 });
 
@@ -139,20 +132,22 @@ const onBack = () => {
 
 const getDeviceModeData = async (id: any) => {
 	// 获取物模型信息
-	const res = await getDeviceModel(id);
+	const res = await getDevice(id);
+	console.log(res);
 	if (res.code === 200) {
 		// 赋值（对象拷贝）
-		DeviceModel.ID = res.data.DeviceModelId;
-		DeviceModel.Name = res.data.Name;
-		DeviceModel.Description = res.data.Description;
-		DeviceModel.ConnectType = res.data.ConnectType;
-		DeviceModel.CommunicationType = res.data.CommunicationType;
-		DeviceModel.ProtocolType = res.data.ProtocolType;
-		DeviceModel.Image = res.data.Image;
-		DeviceModel.Content = res.data.Content;
-		DeviceModel.IsDisabled = res.data.IsDisabled;
+		Device.ID = res.data.DeviceId;
+		Device.Name = res.data.Name;
+		Device.Description = res.data.Description;
+		Device.Status = res.data.Status;
+		Device.ModelID = res.data.DeviceModel.DeviceModelId;
+		Device.ModelType = res.data.DeviceModel.Name;
+		Device.ModelContent = res.data.DeviceModel.Content;
+		Device.Image = res.data.DeviceModel.Image;
+		Device.UserName = res.data.Account.Name;
+		Device.IsDisabled = res.data.IsDisabled;
 	}
-	console.log(DeviceModel);
+	console.log(Device);
 };
 
 // 组件挂载完毕
