@@ -40,7 +40,7 @@
 								<el-tag v-else-if="Device.Status == '3'" type="danger">异常</el-tag>
 							</el-descriptions-item>
 							<el-descriptions-item label="ID:">
-								{{ Device.ID }}-{{ Device.ModelID }}
+								{{ Device.ModelID }}-{{ Device.ID }}
 							</el-descriptions-item>
 							<el-descriptions-item label="所属用户:">
 								{{ Device.UserName }}

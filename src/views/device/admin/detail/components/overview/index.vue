@@ -3,9 +3,9 @@
 		<h3>属性值</h3>
 	</div>
 	<el-collapse style="margin-bottom: 20px">
-		<el-collapse-item name="index" v-for="(item, index) in Model.attributes" :key="index">
+		<el-collapse-item :name="index" v-for="(item, index) in Model.attributes" :key="index">
 			<template #title>
-				<div style="font-size: large">属性:{{ item.name }}-{{ item.identifier }}</div>
+				<div style="font-size: large">{{ item.name }}-{{ item.identifier }}:({{ item.unit }})</div>
 			</template>
 			<!-- 表格 -->
 			<el-table :data="item.data" style="width: 100%">
@@ -82,5 +82,10 @@ watch(
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+}
+//去除el-collapse折叠面板的默认边框
+.el-collapse,
+.el-collapse-item__wrap {
+	border: none;
 }
 </style>
